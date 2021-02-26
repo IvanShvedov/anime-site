@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        {% for cart in animes %}
+        <div class="row justify-content-center">
+            <div class="cart">
+                <a href="#">
+                    <img src="" alt="">
+                </a>
+                <div class="">
+                    <a href="#" class="cart-title">{{cart.anime.title}}</a>
+                    <ul class="main-info">
+                        Год
+                        <li>{{cart.anime.year}}</li>
+                        <li class="genres">
+                            Жанры
+                            <ul>
+                                {% for genre in cart.genres %}
+                                <li>
+                                    <a href="">{{genre.name}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            Возрастной рейтинг
+                            <span>{{cart.anime.age_raiting}}</span>
+                        </li>
+                        <li>
+                            Авторы
+                            <ul>
+                                {% for author in cart.authors %}
+                                <li>
+                                    <a href="">{{author}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

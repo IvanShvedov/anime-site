@@ -3,6 +3,11 @@ from django.db import models
 from .choices import *
 
 
+def get_anime_url(obj, viewname: str):
+    ct_model = obj.__class__._meta.model_name
+    return reversed(viewname, kwargs = {'ct_model': ct_model, 'slug': obj.slug})
+
+
 class Anime(models.Model):
 
     title = models.CharField(max_length=100, verbose_name='Наименование')
@@ -11,17 +16,20 @@ class Anime(models.Model):
     image_url = models.URLField(verbose_name='Ссылка на картинку')
     genres = models.ManyToManyField('Genre', verbose_name='Жанры')
     year = models.DateField(verbose_name='Год')
-    author = models.ForeignKey('Author', verbose_name='Автор', on_delete=models.CASCADE)
+    author = models.ManyToManyField('Author', verbose_name='Автор')
     season = models.CharField(max_length=10, choices=SEASONS)
     age_raiting = models.CharField(max_length=30, choices=RATING)
-    episodes = models.ManyToManyField('Episode', verbose_name='Эпизоды')
 
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return get_anime_url(self, 'anime')
+
 
 class Episode(models.Model):
     
+    anime = models.ForeignKey(Anime, verbose_name='Аниме', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, verbose_name='Наименование эпизода')
     video_url = models.URLField(verbose_name='Ссылка на видео')
 
@@ -30,7 +38,12 @@ class Episode(models.Model):
 
 
 class Author(models.Model):
-    pass
+    
+    name = models.CharField(max_length=100, verbose_name='Имя автора')
+    slug = models.SlugField(unique=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Genre(models.Model):

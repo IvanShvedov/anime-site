@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Anime)
 admin.site.register(Episode)
 admin.site.register(Genre)
+admin.site.register(Author)
