@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            {% url 'login_page' as the_url %}
+            
+            <form action="{{the_url}}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Почта</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Почтой делиться ни с кем не будем</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+            <div class="mb-3">
+                <div class="form-text" style="padding-top: 1em;"><p>Нету аккаунта?</p></div>
+                {% url 'reg_page' as the_url%}
+                <a href="{{the_url}}">
+                    <button class="btn btn-primary">Зарегистрироваться</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+{% endblock content %}

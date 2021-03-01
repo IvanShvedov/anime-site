@@ -74,5 +74,24 @@ class AccountView(View):
             ctx={}
             return render(request, 'account.html', context=ctx)
 
+
+class LoginView(View):
+
+    def get(self, request, *args, **kwargs):
+        ctx = {}
+        return render(request, 'login_form.html', context=ctx)
+
+    def post(self, request, *args, **kwargs):
+        # user = 
+        pass
+
+
+class RegView(View):
+
+    def get(self, request, *args, **kwargs):
+    
+        ctx = {}
+        return render(request, 'register_form.html', context=ctx)
+
     def post(self, request, *args, **kwargs):
         pass
