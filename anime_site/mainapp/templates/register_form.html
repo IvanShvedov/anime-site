@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-4">
 
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            {% if not status %}
+                {{msg}}
+            {% endif %}
+            {% url 'reg_page' as the_url %}
+            <form action="{{the_url}}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Уникальное имя</label>
+                    <input type="" class="form-control" id="" aria-describedby="" name="name">
+                    <label for="exampleInputEmail1" class="form-label">Почта</label>
+                    <input type="email" class="form-control" id="" aria-describedby="" name="e-mail">
+                    <div id="emailHelp" class="form-text">Почтой делиться ни с кем не будем</div>
+                    <input type="password" class="form-control" name="password">
+                    <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
 {% endblock content %}

@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import View
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.db.utils import IntegrityError
 from .models import *
 
 
@@ -79,19 +82,32 @@ class LoginView(View):
 
     def get(self, request, *args, **kwargs):
         ctx = {}
-        return render(request, 'login_form.html', context=ctx)
+        return render(request, 'login_form.html')
 
     def post(self, request, *args, **kwargs):
-        # user = 
-        pass
+        user = authenticate(name=request.POST['name'], password=request.POST['password'])
+        login(request, user)
+        print('a')
+        return redirect('main_page')
+        # else:
+            # return render(request, 'login_form.html', context={'status': False, 'msg': 'Такого пользователя нету'})
+
+
+def log_out(request, *args, **kwargs):
+    logout(request)
+    return redirect('login_page')
 
 
 class RegView(View):
 
     def get(self, request, *args, **kwargs):
-    
         ctx = {}
         return render(request, 'register_form.html', context=ctx)
 
     def post(self, request, *args, **kwargs):
-        pass
+        try:
+            user = User.objects.create_user(request.POST['name'], request.POST['e-mail'], request.POST['password'])
+            user.save()
+        except IntegrityError:
+            return render(request, 'register_form.html', context={'msg': 'Пользователь с таким именем уже существует'})
+        return redirect('main')
