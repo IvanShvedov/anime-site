@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid" style="padding-left: 4em;">
+        <div class="row">
+            Аниме жанра "{{filter}}"
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    {% for card in animes %}
+                        <div class="col-md-6 gy-4">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {% url 'anime_page' slug=card.anime.slug as the_url%}
+                                        <a href="{{ the_url }}">
+                                            <img src="{{card.anime.image_url}}" class="card-img-top" alt="" style="object-fit: fit; width: 16em; height: 20em;">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{card.anime.title}}</h5>
+                                            <p class="card-text">Год: {{card.anime.year}}</p>
+                                            <h6 class="card-title">Жанры</h6>
+                                            <div class="text-wrap">
+                                                {% for genre in  card.genres %}
+                                                    {% url 'genres_page' slug=genre.slug as the_url %}
+                                                    <a href="{{ the_url }}" class="card-link">{{genre.name}}</a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                Фильтр аниме
+            </div>
+        </div>
+    </div>
+{% endblock content %}
