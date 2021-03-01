@@ -25,6 +25,26 @@ class MainView(View):
 class AnimeView(View):
     
     def get(self, request, *args, **kwargs):
-
-        ctx = {}
+        anime = Anime.objects.get(slug=kwargs.get('slug'))
+        genres = anime.genres.all()
+        authors = anime.author.all()
+        episodes = Episode.objects.filter(anime=anime)
+        ctx = {
+            'anime': anime,
+            'genres': genres,
+            'authors': authors,
+            'episodes': episodes
+        }
         return render(request, 'anime_page.html', context=ctx)
+
+
+class GengerView(View):
+
+    def get(self, request, *args, **kwargs):
+        pass
+
+
+class StudioView(View):
+
+    def get(self, request, *args, **kwargs):
+        pass 

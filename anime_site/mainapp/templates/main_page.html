@@ -1,46 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="wrap">
-        {% for cart in animes %}
+    <div class="container-fluid" style="padding-left: 4em;">
         <div class="row">
-            <div class="cart">
-                <a href="#">
-                    <img src="" alt="">
-                </a>
-                <div class="">
-                    <a href="#" class="cart-title">{{cart.anime.title}}</a>
-                    <ul class="main-info">
-                        Год
-                        <li>{{cart.anime.year}}</li>
-                        <li class="genres">
-                            Жанры
-                            <ul>
-                                {% for genre in cart.genres %}
-                                <li>
-                                    <a href="">{{genre.name}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li>
-                            Возрастной рейтинг
-                            <span>{{cart.anime.age_raiting}}</span>
-                        </li>
-                        <li>
-                            Авторы
-                            <ul>
-                                {% for author in cart.authors %}
-                                <li>
-                                    <a href="">{{author}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
+            <div class="col-md-8">
+                <div class="row">
+                    {% for card in animes %}
+                        <div class="col-md-6 gy-4">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {% url 'anime_page' slug=card.anime.slug as the_url%}
+                                        <a href="{{ the_url }}">
+                                            <img src="{{card.anime.image_url}}" class="card-img-top" alt="" style="object-fit: fit; width: 16em; height: 20em;">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{card.anime.title}}</h5>
+                                            <p class="card-text">Год: {{card.anime.year}}</p>
+                                            <h6 class="card-title">Жанры</h6>
+                                            <div class="text-wrap">
+                                                {% for genre in  card.genres %}
+                                                    {% url 'genres_page' slug=genre.slug as the_url %}
+                                                    <a href="{{ the_url }}" class="card-link">{{genre.name}}</a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
+            <div class="col-md-4">
+                Фильтр аниме
+            </div>
         </div>
-        {% endfor %}
     </div>
 {% endblock content %}

@@ -1,10 +1,10 @@
 body {
     margin: 0px;
-    /* padding: 0px; */
+    padding: 0px;
 }
 * {
     margin: 0px;
-    /* padding: 0px; */
+    padding: 0px;
 }
 .light {
     background-color: #FFF5E7;
@@ -48,15 +48,16 @@ body {
 }
 
 .navbar {
-    position: fixed;
     width: 100vw;
     height: 7vh;
+    /* position: fixed; */
 }
 .logo {
     background-image: url();
 }
-
-.tab {
-    width: 200px;
-    height: 7vh;
+.p {
+    padding-top: 10vh;
+}
+button[state=active] {
+    background-color: rgb(168, 123, 0);
 }

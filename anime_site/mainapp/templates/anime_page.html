@@ -1,28 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content%}
-    <div class="main-block">
-        <div class="row justify-content-center">
-            <div class="cart">
-                <a href="#">
-                    <img src="" alt="">
-                </a>
-                <div class="">
-                    <a href="#" class="cart-title">{{anime}}</a>
-                    <ul class="main-info">
-                        <li></li>
-                        <li class="genres">
-                            <ul>
-                                <li>
-                                    <a href=""></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span></span>
-                        </li>
-                    </ul>
+    <div class="container-fluid" style="padding-left: 4em;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="{{anime.image_url}}" alt="" style="object-fit: fit; width: 20em; height: 26em;">
+                    </div>
+                    <div class="col-sm-4">
+                        <h1>{{anime.title}}</h1>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% for genre in genres %}
+                                    {% url 'genres_page' slug=genre.slug as the_url%}
+                                    <a href="{{the_url}}">{{genre.name}}</a>
+                                {% endfor %}
+                            </li>
+                            <li class="list-group-item">
+                                Год: {{anime.year}}
+                            </li>
+                            <li class="list-group-item">
+                                Авторы: 
+                                {% for author in authors %}
+                                    {% url 'studio_page' slug=author.slug as the_url%}
+                                    <a href="{{the_url}}">{{author.name}}</a>
+                                {% endfor %}
+                            </li>
+                            <li class="list-group-item">
+                                Сезон: {{anime.season}}
+                            </li>
+                            <li class="list-group-item">
+                                Возрастной рейтинг: {{anime.age_raiting}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4"></div>
+                    <div class="row gy-2">
+                        <div class="col-md-12">
+                            Описание:
+                            <div class="text-wrap">{{anime.description}}</div>
+                        </div>
+                    </div>
                 </div>
+                <div class="row bg-dark dark">
+                    Эпизоды
+                </div>
+                <div class="row">
+                    <div class="col-md-12 gy-3">
+                        {% for episode in episodes %}
+                            <button type="button" class="btn btn-dark episode" state='disable' data="{{episode.video_url}}">{{episode.title}}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 gy-3">
+                        <iframe width="800" height="450" src="" frameborder="0" allowfullscreen class="anime-player"></iframe>
+                        <!-- <video src="" class="anime-player"></video> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                qwer
             </div>
         </div>
     </div>
