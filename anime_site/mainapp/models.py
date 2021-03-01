@@ -31,6 +31,7 @@ class Episode(models.Model):
     
     anime = models.ForeignKey(Anime, verbose_name='Аниме', on_delete=models.CASCADE)
     title = models.CharField(max_length=100, verbose_name='Наименование эпизода')
+    number = models.PositiveIntegerField(verbose_name='Номер серии', null=True)
     video_url = models.URLField(verbose_name='Ссылка на видео')
 
     def __str__(self):
@@ -53,3 +54,8 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+
+    pass
