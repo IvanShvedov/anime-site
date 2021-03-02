@@ -1,11 +1,25 @@
 <div class="row">
     <div class="row bg-dark dark">
-        Коментарии
+        Комментарии
     </div>
-    <div class="row">
-        Оставить комментарий
+    <div class="row gy-2">
+        {% if user.is_authenticated %}
+            {% url 'comment' as the_url %}
+            <form action="{{the_url}}" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
+                    <button type="submit" class="btn btn-primary">Оставить комментарий</button>
+                    <input type="text" class="form-control" hidden value="{{anime.slug}}" name="anime">
+                </div>
+            </form>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Войдите в свой аккаунт, чтобы оставлять комментарии
+            </div>
+        {% endif %}
     </div>
-    <div class="row">
+    <div class="row gy-2">
         <div class="col-md-12">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">

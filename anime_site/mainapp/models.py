@@ -1,6 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 from .choices import *
+
 
 
 def get_anime_url(obj, viewname: str):
@@ -58,4 +61,14 @@ class Genre(models.Model):
 
 class Comment(models.Model):
 
-    pass
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    anime = models.ForeignKey(Anime, verbose_name='Аниме', on_delete=models.CASCADE)
+    comment = models.TextField(verbose_name='Комментарий')
+    pub_date = models.DateTimeField(verbose_name='Дата комментария')
+
+    def save(self, *args, **kwargs):
+        self.pub_date = timezone.now()
+        return super(Comment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"User: {self.user}, comment: {self.comment}"

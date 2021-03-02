@@ -26,29 +26,29 @@
                         Поиск
                     </button>
                 </form>
-                  <li class="nav-item active">
-                    {% if user %}
-                        {% url 'account_page' id=user.id as the_url %}
-                        <a class="nav-link" href="{{ the_url }}">{{user}}</a>
-                    {% elif not user %}
+                {% if user %}
+                    <li class="nav-item active">
+                        {% if not user.is_authenticated %}
+                            {% url 'login_page' as the_url%}
+                            <a class="nav-link" href="{{the_url}}">Login</a>
+                        {% else %}
+                            {% url 'account_page' id=user.id as the_url %}
+                            <a class="nav-link" href="{{ the_url }}">{{user}}</a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% if not user %}
+                    <li class="nav-item active">
                         {% url 'login_page' as the_url%}
                         <a class="nav-link" href="{{the_url}}">Login</a>
-                    {% endif %}
-                  </li>
-                    {% if user %}
-                        <li class="nav-item active">
-                            {% url 'logout' as the_url%}
-                            <a href="{{the_url}}" class="nav-link">Logout</a>
-                        </li>
-                    {% endif %}
-                  <li class="nav-item dropdown">
-                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Dropdown link</a>
-                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                           <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider">
-                          </div> <a class="dropdown-item" href="#">Separated link</a>
-                      </div>
-                  </li>
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item active">
+                        {% url 'logout' as the_url%}
+                        <a href="{{the_url}}" class="nav-link">Logout</a>
+                    </li>
+                {% endif %}
               </ul>
           </div>
       </nav>

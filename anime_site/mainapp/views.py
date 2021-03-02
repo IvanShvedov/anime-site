@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
+
 from .models import *
 
 
@@ -80,22 +81,25 @@ class AccountView(View):
 
 class LoginView(View):
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request,):
         ctx = {}
         return render(request, 'login_form.html')
 
     def post(self, request, *args, **kwargs):
-        user = authenticate(name=request.POST['name'], password=request.POST['password'])
-        login(request, user)
-        print('a')
-        return redirect('main_page')
-        # else:
-            # return render(request, 'login_form.html', context={'status': False, 'msg': 'Такого пользователя нету'})
+        user = authenticate(request, username=request.POST['name'], password=request.POST['password'])
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('main')
+            else:
+                return render(request, 'login_form.html', context={'status': False, 'msg': 'Пользователь не активен'})
+        else:
+            return render(request, 'login_form.html', context={'status': False, 'msg': 'Такого пользователя нету'})
 
 
-def log_out(request, *args, **kwargs):
+def log_out(request):
     logout(request)
-    return redirect('login_page')
+    return redirect('main')
 
 
 class RegView(View):
@@ -111,3 +115,19 @@ class RegView(View):
         except IntegrityError:
             return render(request, 'register_form.html', context={'msg': 'Пользователь с таким именем уже существует'})
         return redirect('main')
+
+
+class CommentView(View):
+
+    def post(self, request, *args, **kwargs):
+        try:
+            anime = Anime.objects.get(slug=request.POST['anime'])
+            comment = Comment.objects.create(
+                user = request.user,
+                anime = anime,
+                comment = request.POST['comment']
+            )
+            comment.save()
+        except Exception as e:
+            print(e)
+        return redirect('anime_page', slug=anime.slug)
