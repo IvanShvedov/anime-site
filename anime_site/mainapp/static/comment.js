@@ -1,16 +1,23 @@
-// function load() {
-//     let slug = document.querySelector('.anime_slug').value
-//     let url = '/comments?slug=' + slug
-//     fetch(url)
-//         .then((res) => {
-//             return res.json()
-//         })
-//         .then((data) => {
-//             data.forEach(el => {
-//                 document.querySelector('.comments').innerHTML += el
-//             })
-//         })
-// }
+function load() {
+    let slug = document.querySelector('.anime-slug').value
+    let url = '/comments?slug=' + slug
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            commentRender(JSON.parse(data).reverse())
+        })
+}
+
+function commentRender(data) {
+    document.querySelector('.comments').innerHTML = ''
+    let comments = document.querySelector('.comments')
+    data.map((item)=>{
+        let li = document.createElement('li')
+        li.classList.add('list-group-item')
+        li.innerHTML = `<h6>${item.fields.user}</h6><p>${item.fields.comment}</p>`
+        comments.append(li)
+    })
+}
 
 document.querySelector('.fetch').addEventListener('click', (e)=>{
     e.preventDefault()
@@ -22,7 +29,6 @@ document.querySelector('.fetch').addEventListener('click', (e)=>{
         'comment': comment,
         'anime': anime
     }
-    console.log(body)
     fetch(url, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -31,7 +37,11 @@ document.querySelector('.fetch').addEventListener('click', (e)=>{
         },
         credentials: 'include'
     })
+    .then(()=>{
+        load()
+    })
+    document.querySelector("[name=comment]").value = null
 })
 
 
-// window.onload = load()
+window.onload = load()
