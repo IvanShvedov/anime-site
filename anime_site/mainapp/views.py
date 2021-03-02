@@ -1,8 +1,11 @@
+import json
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
+from django.http.response import HttpResponse, JsonResponse
+from django.core import serializers
 
 from .models import *
 
@@ -121,13 +124,22 @@ class CommentView(View):
 
     def post(self, request, *args, **kwargs):
         try:
-            anime = Anime.objects.get(slug=request.POST['anime'])
-            comment = Comment.objects.create(
-                user = request.user,
-                anime = anime,
-                comment = request.POST['comment']
-            )
-            comment.save()
+            data = json.loads(request.body.decode("utf-8"))
+
+            if data['comment'] != None and data['comment'] != '':
+                anime = Anime.objects.get(slug=data['anime'])
+                comment = Comment.objects.create(
+                    user = request.user,
+                    anime = anime,
+                    comment = data['comment']
+                )
+                comment.save()
         except Exception as e:
             print(e)
-        return redirect('anime_page', slug=anime.slug)
+        return HttpResponse(content="success")
+
+    def get(self, request, *args, **kwargs):
+        anime = Anime.objects.get(slug=request.GET['slug'])
+        comments = Comment.objects.filter(anime=anime)
+        data = serializers.serialize('json', comments)
+        return JsonResponse(data, safe=False)

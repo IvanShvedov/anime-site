@@ -1,16 +1,17 @@
+{% load static %}
 <div class="row">
     <div class="row bg-dark dark">
         Комментарии
     </div>
     <div class="row gy-2">
         {% if user.is_authenticated %}
-            {% url 'comment' as the_url %}
-            <form action="{{the_url}}" method="POST">
+            {% url 'comments' as the_url %}
+            <form action="" method="">
                 {% csrf_token %}
                 <div class="input-group">
                     <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
-                    <button type="submit" class="btn btn-primary">Оставить комментарий</button>
-                    <input type="text" class="form-control" hidden value="{{anime.slug}}" name="anime">
+                    <button type="submit" class="btn btn-primary fetch">Оставить комментарий</button>
+                    <input type="text" class="form-control anime-slug" hidden value="{{anime.slug}}" name="anime">
                 </div>
             </form>
         {% else %}
@@ -21,7 +22,7 @@
     </div>
     <div class="row gy-2">
         <div class="col-md-12">
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush comments">
                 <li class="list-group-item">
                     <h6>Username</h6>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis culpa illum sint animi molestias iste, blanditiis nesciunt nulla magnam aspernatur enim recusandae, corporis minus ipsam! Nulla labore vitae voluptates vel?</p>
@@ -30,3 +31,4 @@
         </div>
     </div>
 </div>
+<script src="{% static 'comment.js' %}"></script>
