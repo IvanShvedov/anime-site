@@ -4,7 +4,8 @@ function load() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            commentRender(JSON.parse(data).reverse())
+            // commentRender(JSON.parse(data).reverse())
+            commentRender(data.reverse())
         })
 }
 
@@ -14,7 +15,7 @@ function commentRender(data) {
     data.map((item)=>{
         let li = document.createElement('li')
         li.classList.add('list-group-item')
-        li.innerHTML = `<h6>${item.fields.user}</h6><p>${item.fields.comment}</p>`
+        li.innerHTML = `<h6>${item.user}</h6><p>${item.comment}</p>`
         comments.append(li)
     })
 }

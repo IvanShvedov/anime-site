@@ -141,5 +141,11 @@ class CommentView(View):
     def get(self, request, *args, **kwargs):
         anime = Anime.objects.get(slug=request.GET['slug'])
         comments = Comment.objects.filter(anime=anime)
-        data = serializers.serialize('json', comments)
-        return JsonResponse(data, safe=False)
+        body = []
+        for comment in comments:
+            body.append({
+                'comment': comment.comment,
+                'user': comment.user.username
+                }
+            )
+        return JsonResponse(body, safe=False)
