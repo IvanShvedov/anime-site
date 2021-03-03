@@ -1,4 +1,5 @@
 import json
+from typing import Type
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.models import User
@@ -188,11 +189,14 @@ class GradeView(View):
         return HttpResponse(content="success")
 
     def get(self, request):
-        anime = Anime.objects.get(slug=request.GET['slug'])
-        grade = Grade.objects.get(anime=anime, user=request.user)
-        body = {
-            'grade': grade.grade
-        }
+        try:
+            anime = Anime.objects.get(slug=request.GET['slug'])
+            grade = Grade.objects.get(anime=anime, user=request.user)
+            body = {
+                'grade': grade.grade
+            }
+        except TypeError:
+            return HttpResponse(content="fail")
         return JsonResponse(body, safe=False)
 
     

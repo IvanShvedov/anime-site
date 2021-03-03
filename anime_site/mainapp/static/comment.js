@@ -19,30 +19,33 @@ function commentRender(data) {
         comments.append(li)
     })
 }
-
-document.querySelector('.fetch').addEventListener('click', (e)=>{
-    e.preventDefault()
-    var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value
-    let anime = document.querySelector(".anime-slug").value
-    let comment = document.querySelector("[name=comment]").value
-    let url = '/comments'
-    let body = {
-        'comment': comment,
-        'anime': anime
-    }
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        credentials: 'include'
+try {
+    document.querySelector('.fetch').addEventListener('click', (e)=>{
+        e.preventDefault()
+        var csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value
+        let anime = document.querySelector(".anime-slug").value
+        let comment = document.querySelector("[name=comment]").value
+        let url = '/comments'
+        let body = {
+            'comment': comment,
+            'anime': anime
+        }
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            credentials: 'include'
+        })
+        .then(()=>{
+            load()
+        })
+        document.querySelector("[name=comment]").value = null
     })
-    .then(()=>{
-        load()
-    })
-    document.querySelector("[name=comment]").value = null
-})
+} catch (e) {
+    load()
+}
 
 
 window.onload = load()

@@ -4,6 +4,7 @@
         Комментарии
     </div>
     <div class="row gy-2">
+        <input type="text" class="form-control anime-slug" hidden value="{{anime.slug}}" name="anime">
         {% if user.is_authenticated %}
             {% url 'comments' as the_url %}
             <form action="" method="">
@@ -11,7 +12,6 @@
                 <div class="input-group">
                     <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
                     <button type="submit" class="btn btn-primary fetch">Оставить комментарий</button>
-                    <input type="text" class="form-control anime-slug" hidden value="{{anime.slug}}" name="anime">
                 </div>
             </form>
         {% else %}
