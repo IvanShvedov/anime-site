@@ -72,3 +72,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"User: {self.user}, comment: {self.comment}"
+
+
+class Grade(models.Model):
+
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    anime = models.ForeignKey(Anime, verbose_name='Аниме', on_delete=models.CASCADE)
+    grade = models.PositiveSmallIntegerField(verbose_name='Оценка')
+
+    def __str__(self):
+        return f"User: {self.user}, grade: {self.grade}"

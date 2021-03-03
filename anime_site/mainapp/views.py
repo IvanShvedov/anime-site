@@ -149,3 +149,34 @@ class CommentView(View):
                 }
             )
         return JsonResponse(body, safe=False)
+
+
+class GradeView(View):
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            if data['grade'] != None and data['grade'] != '':
+                anime = Anime.objects.get(slug=data['anime'])
+                grade = Grade.objects.get(user=request.user, anime=anime)
+                grade.grade = data['grade']
+                grade.save()
+        except Grade.DoesNotExist:
+            data = json.loads(request.body.decode('utf-8'))
+            if data['grade'] != None and data['grade'] != '':
+                anime = Anime.objects.get(slug=data['anime'])
+                grade = Grade.objects.create(
+                    user = request.user,
+                    anime = anime,
+                    grade = data['grade']
+                )
+                grade.save()
+        return HttpResponse(content="success")
+
+    def get(self, request):
+        anime = Anime.objects.get(slug=request.GET['slug'])
+        grade = Grade.objects.get(anime=anime, user=request.user)
+        body = {
+            'grade': grade.grade
+        }
+        return JsonResponse(body, safe=False)

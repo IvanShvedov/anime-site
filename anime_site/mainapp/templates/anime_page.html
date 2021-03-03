@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content%}
     <div class="container-fluid" style="padding-left: 4em;">
@@ -33,6 +34,31 @@
                             <li class="list-group-item">
                                 Возрастной рейтинг: {{anime.age_raiting}}
                             </li>
+                            <li class="list-group-item">
+                                <p>Оценить аниме</p>
+                                {% if user.is_authenticated %}
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btnradio1">1</label>
+                                        
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btnradio2">2</label>
+                                        
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btnradio3">3</label>
+
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btnradio4">4</label>
+
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btnradio5">5</label>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-warning" role="alert">
+                                        Войдите в свой аккаунт, чтобы ставить оценки
+                                    </div>
+                                {% endif %}
+                            </li>
                         </ul>
                     </div>
                     <div class="col-sm-4"></div>
@@ -64,4 +90,6 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'grade.js' %}"></script>
+
 {% endblock content%}
