@@ -8,3 +8,5 @@ admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Comment)
 admin.site.register(Grade)
+admin.site.register(Library)
+

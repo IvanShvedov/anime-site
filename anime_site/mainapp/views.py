@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
 from django.http.response import HttpResponse, JsonResponse
-from django.core import serializers
 
 from .models import *
 
@@ -77,8 +76,23 @@ class StudioView(View):
 class AccountView(View):
 
     def get(self, request, *args, **kwargs):
+        animes = []
         if request.user:
+            all_anime = Library.objects.filter(user=request.user)
             ctx={}
+            for anime in all_anime:
+                print(anime)
+                an = Anime.objects.get(title = anime.anime)
+                authors = anime.anime.author.all()
+                genres = anime.anime.genres.all()
+                animes.append({
+                    'anime': an,
+                    'authors': authors,
+                    'genres': genres
+                })
+            ctx = {
+                'animes': animes,
+            }
             return render(request, 'account.html', context=ctx)
 
 
@@ -180,3 +194,12 @@ class GradeView(View):
             'grade': grade.grade
         }
         return JsonResponse(body, safe=False)
+
+    
+class LibraryView(View):
+
+    def post(self, request):
+        pass
+
+    def get(self, request):
+        pass
