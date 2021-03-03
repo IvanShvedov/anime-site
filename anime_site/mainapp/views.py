@@ -203,7 +203,35 @@ class GradeView(View):
 class LibraryView(View):
 
     def post(self, request):
-        pass
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            if data['slug'] != None and data['slug'] != '':
+                anime = Anime.objects.get(slug=data['slug'])
+                lib = Library.objects.get_or_create(user=request.user, anime=anime)
+        except Library.DoesNotExist:
+            pass
+        except Anime.DoesNotExist:
+            return HttpResponse(content="fail")
+        return HttpResponse(content="success")
 
     def get(self, request):
-        pass
+        try:
+            anime = Anime.objects.get(slug=request.GET['slug'])
+            lib = Library.objects.get(anime=anime, user=request.user)
+        except Library.DoesNotExist:
+            return HttpResponse(content="fail to get lib", status=404)
+        except Anime.DoesNotExist:
+            return HttpResponse(content="fail to get anime", status=404)
+        return HttpResponse(status=200)
+
+    def delete(self, request):
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            if data['slug'] != None and data['slug'] != '':
+                anime = Anime.objects.get(slug=data['slug'])
+                lib = Library.objects.get(user=request.user, anime=anime)
+                lib.delete()
+        except Anime.DoesNotExist:
+            return HttpResponse(content="fail")
+        return HttpResponse(content="success")
+        

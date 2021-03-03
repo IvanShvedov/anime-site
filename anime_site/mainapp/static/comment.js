@@ -8,6 +8,7 @@ function load() {
             commentRender(data.reverse())
         })
 }
+window.onload = load()
 
 function commentRender(data) {
     document.querySelector('.comments').innerHTML = ''
@@ -19,6 +20,7 @@ function commentRender(data) {
         comments.append(li)
     })
 }
+
 try {
     document.querySelector('.fetch').addEventListener('click', (e)=>{
         e.preventDefault()
@@ -47,5 +49,3 @@ try {
     load()
 }
 
-
-window.onload = load()

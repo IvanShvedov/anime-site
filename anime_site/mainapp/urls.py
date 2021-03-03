@@ -14,5 +14,6 @@ urlpatterns = [
     path('logout', views.log_out, name='logout'),
     path('register', views.RegView.as_view(), name='reg_page'),
     path('comments', views.CommentView.as_view(), name='comments'),
-    path('grades', views.GradeView.as_view(), name='grades')
+    path('grades', views.GradeView.as_view(), name='grades'),
+    path('lib', views.LibraryView.as_view(), name='library')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

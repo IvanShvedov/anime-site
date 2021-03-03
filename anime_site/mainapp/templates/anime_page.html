@@ -59,9 +59,15 @@
                                     </div>
                                 {% endif %}
                             </li>
+                            {% if user.is_authenticated %}
+                                <li class="list-group-item">
+                                    <button type="button" class="btn btn-light lib">Добавить в избранное</button>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
-                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                    </div>
                     <div class="row gy-2">
                         <div class="col-md-12">
                             Описание:
@@ -91,5 +97,6 @@
         </div>
     </div>
     <script src="{% static 'grade.js' %}"></script>
+    <script src="{% static 'lib.js' %}"></script>
 
 {% endblock content%}
