@@ -1,10 +1,10 @@
 import json
-from typing import Type
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
+from django.core.serializers import serialize
 from django.http.response import HttpResponse, JsonResponse
 
 from .models import *
@@ -46,7 +46,7 @@ class AnimeView(View):
         return render(request, 'anime_page.html', context=ctx)
 
 
-class GengerView(View):
+class GenreView(View):
 
     def get(self, request, *args, **kwargs):
         animes = []
@@ -66,6 +66,14 @@ class GengerView(View):
             'animes': animes
         }
         return render(request, 'genres.html', context=ctx)
+
+
+class GenresListView(View):
+
+    def get(self, request):
+        genres = Genre.objects.all()
+        body = serialize('json', genres)
+        return JsonResponse(body, safe=False)
 
 
 class StudioView(View):
